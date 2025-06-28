@@ -1,0 +1,191 @@
+% Available on https://gitlab.ethz.ch/bsaverio/ethbeamer
+% Created by Saverio Bolognani based on ETH official design
+
+% This file should only customize the style of the layout of the slides
+
+\mode<presentation>
+
+% Redefine \insertshortinstitute to allow multiple lines
+\makeatletter
+\renewcommand{\insertshortinstitute}{\beamer@shortinstitute}
+\makeatother
+
+% Title frame
+\def\titlefigure{elements/title-page-image.jpg}
+\newlength\titleboxwidth
+\setlength{\titleboxwidth}{0.43\textwidth}
+\newcommand{\titleframe}{%
+	{
+		\setbeamertemplate{background}{
+			\begin{tikzpicture}
+			\useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+			\ifx\titlefigure\empty
+				\fill[titlebgcolor] (9.6mm,7.4mm) rectangle (\the\paperwidth-9.5mm,\the\paperheight-13mm);
+			\else
+				\node at (current page.center) [anchor=center,yshift=-3.5mm] {\includegraphics[width=\the\paperwidth-19mm]{\titlefigure}};
+			\fi
+            
+                \node at (current page.north west) [anchor=north west, inner sep=0mm, xshift=9.5mm, yshift=-4.5mm] {
+                    \begin{minipage}{0.8\paperwidth}
+                        \raisebox{0mm}{\includegraphics[height=5mm]{elements/eth_logo_kurz_pos}} \hspace{3mm}
+                        \raisebox{0mm}{\includegraphics[height=5mm]{elements/spz_logo}} \hspace{3mm}
+                        \raisebox{0mm}{\includegraphics[height=5mm]{elements/spf_logo}}
+                    \end{minipage}
+                };
+                \node at (current page.north east) [anchor=north east, inner sep=0mm, xshift=-9.5mm, yshift=-4.5mm] {
+                    \raisebox{0mm}{\includegraphics[height=7mm]{elements/scai_logo}}
+                };
+
+			\end{tikzpicture}
+		}
+		\setbeamertemplate{footline}{}
+		\begin{frame}[noframenumbering]
+			\begin{tikzpicture}
+				\useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+				\node [
+					shift={(-12mm,-2mm)},
+					fill=titlefgcolor,
+					minimum width=0.49\paperwidth,
+					minimum height=20mm,
+					anchor=west,
+					inner sep=5mm
+					] at (current page.west) {
+						\hspace*{10mm}
+                        \begin{minipage}{\titleboxwidth}
+                            \raggedright
+                            \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\\[3mm]
+
+                            \usebeamerfont{date}\usebeamercolor[fg]{date}\projecttype\\[2mm]
+                            
+                            \usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\\
+                            \texttt{\myemail}\\[1mm]
+                            
+                            \usebeamerfont{date}
+                            \textbf{Supervisors:}\\ \supervisors
+                        \end{minipage}
+		
+				};
+
+                    \node[
+                        anchor=south east,
+                        align=right,
+                        font=\scriptsize,
+                        xshift=-18mm,  % push left from the right edge
+                        yshift=1mm    % optional upward adjustment
+                    ] at (current page.south east) {
+                        ETH Z{\"u}rich, Switzerland \textbar{} \insertshortdate
+                    };
+
+			\end{tikzpicture}
+		\end{frame}
+	}
+}
+
+% TOC frame
+\newcommand{\tocframe}{%
+    \begin{frame}
+      \frametitle{Outline}
+      \tableofcontents
+    \end{frame}
+}
+
+% Section title frame
+\AtBeginSection[]
+{
+    \begin{frame}
+      \frametitle{Outline}
+      \large
+      \tableofcontents[currentsection] 
+    \end{frame}
+}
+
+\newenvironment{closingframe}{
+	\setbeamertemplate{background}{
+		\begin{tikzpicture}
+		\useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+		\node at (current page.north west) [anchor=base west, xshift=8mm, yshift=-10mm, align=left] {
+			\includegraphics[width=23mm]{elements/eth_logo_kurz_pos}
+		}; 
+		\end{tikzpicture}
+	}
+	\setbeamertemplate{footline}{}
+	\addtolength{\headsep}{10mm}
+	\begin{frame}[noframenumbering]
+}%
+{
+	\end{frame}
+}%
+
+% Frame title
+\setbeamertemplate{frametitle}{
+	\vspace{2mm}
+	\insertframetitle \\
+	\usebeamerfont{framesubtitle}\insertframesubtitle
+	\vspace{2.5mm}
+}
+
+% Footline
+\setbeamertemplate{footline}{
+	\leavevmode%
+	\hspace{9mm}
+%	\raisebox{-0.1mm}{\includegraphics[width=13mm]{elements/eth_logo_kurz_pos}}
+	\includegraphics[width=13mm,trim=0mm 0.3mm 0mm 0mm]{elements/eth_logo_kurz_pos}
+	\hspace{4.5mm}
+	\parbox[b]{25mm}{
+		\fontsize{3.2}{3.5}\selectfont 
+		\insertshortinstitute
+   	}
+	\hfill
+	\insertshortdate
+	\hspace{3mm}
+	\insertframenumber/\inserttotalframenumber
+	\hspace{9mm}
+	\vspace{3mm}
+}
+
+\setbeamertemplate{footline}{
+  \leavevmode
+  \begin{minipage}[c]{\paperwidth}
+    \vspace{1mm}
+    \hspace{9mm}
+    % Logos block
+    \begin{minipage}[c]{0.28\paperwidth}
+      \includegraphics[height=2mm]{elements/eth_logo_kurz_pos}\hspace{1mm}
+      \includegraphics[height=3mm]{elements/spf_logo}\hspace{1mm}
+      \includegraphics[height=3mm]{elements/scai_logo}
+    \end{minipage}%
+    % Centered date
+    \begin{minipage}[c]{0.26\paperwidth}
+      \centering
+      \scriptsize \insertdate
+    \end{minipage}%
+    % Right-aligned name & slide number
+    \begin{minipage}[c]{0.28\paperwidth}
+      \raggedleft
+      \scriptsize Yahang Qi \textbar{} MATH Msc \textbar{} \insertframenumber/\inserttotalframenumber
+    \end{minipage}%
+    \hspace{1mm}
+  \end{minipage}
+  \vspace{0.5mm}
+}
+
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \vspace{1mm}
+  \hspace{9mm}%
+  % Logos (left)
+  \includegraphics[height=2mm]{elements/eth_logo_kurz_pos}\hspace{1mm}%
+  \includegraphics[height=3mm]{elements/spf_logo}\hspace{1mm}%
+  \includegraphics[height=3mm]{elements/scai_logo}%
+  % Date (center)
+  \hfill%
+  \makebox[0pt]{\scriptsize \insertdate}%
+  \hfill%
+  % Name & slide number (right)
+  \scriptsize\insertauthor\ \textbar{} \program \textbar{} \insertframenumber/\inserttotalframenumber%
+  \hspace{9mm}%
+  \vspace{0.5mm}
+}
+
+
+\mode<all>
